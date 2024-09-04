@@ -47,7 +47,7 @@ const MainPage = () => {
   const searchStationInputRef = useRef<HTMLInputElement>(null);
   const searchStationButtonRef = useRef<HTMLButtonElement>(null);
 
-  const { setTheme, theme } = useTheme();
+  const { setTheme, theme, systemTheme } = useTheme();
 
   useEffect(() => {
     if (selected.length === 0) return;
@@ -97,7 +97,10 @@ const MainPage = () => {
   }, [station.data]);
 
   return (
-    <main className="flex min-h-screen bg-background text-foreground">
+    <main
+      className="flex min-h-screen bg-background text-foreground"
+      vaul-drawer-wrapper=""
+    >
       <section className="relative mx-auto flex w-full max-w-[500px] flex-col">
         <nav className="sticky top-0 z-10 flex h-fit flex-col gap-2 bg-background pl-[8px] pr-[12px] pt-[20px]">
           <div
@@ -136,7 +139,8 @@ const MainPage = () => {
                           "invisible opacity-0": isAdding,
                         })}
                       >
-                        {theme === "light" ? (
+                        {theme === "light" ||
+                        (theme === "system" && systemTheme === "light") ? (
                           <Moon size={20} />
                         ) : (
                           <Sun size={20} />
@@ -144,6 +148,13 @@ const MainPage = () => {
                       </button>
                     </Dropdown.Trigger>
                     <Dropdown.Content side="bottom" align="end" sideOffset={10}>
+                      <Dropdown.CheckboxItem
+                        className="flex items-center justify-between"
+                        onClick={() => setTheme("system")}
+                        checked={theme === "system"}
+                      >
+                        System
+                      </Dropdown.CheckboxItem>
                       <Dropdown.CheckboxItem
                         className="flex items-center justify-between"
                         onClick={() => setTheme("light")}

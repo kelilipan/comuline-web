@@ -11,6 +11,7 @@ import {
 import { api } from "@/trpc/react";
 import { Loader, RefreshCcw } from "lucide-react";
 import { useEffect } from "react";
+import ScheduleMenu from "../components/schedule-menu";
 
 const scheduleKey = (id: string) => `jadwal-krl-schedule-${id}`;
 
@@ -144,10 +145,7 @@ const StationItem = ({
                   >
                     {Object.keys(groupedSchedule[lineKey] ?? {}).map(
                       (destKey) => (
-                        <div
-                          key={destKey}
-                          className="flex flex-col gap-1 pb-1 pt-0.5"
-                        >
+                        <div key={destKey} className="flex flex-col gap-1">
                           <div className="flex items-center justify-between gap-2 text-xs opacity-50">
                             <p>Arah menuju</p>
                             <p>Berangkat pukul</p>
@@ -158,21 +156,33 @@ const StationItem = ({
                             </h3>
                             {groupedSchedule[lineKey]?.[destKey]?.[0]
                               ?.timeEstimated ? (
-                              <div className="flex flex-col gap-1 text-right">
-                                <p className="font-mono text-lg font-medium tracking-tight">
-                                  {formatTime(
-                                    groupedSchedule[lineKey]?.[destKey]?.[0]
-                                      ?.timeEstimated,
+                              <ScheduleMenu
+                                schedule={
+                                  groupedSchedule[lineKey]?.[destKey]?.[0]
+                                }
+                                station={station}
+                              >
+                                <button
+                                  className={cn(
+                                    "act grid select-none gap-1 rounded p-1 text-right",
+                                    "transition-all hover:bg-foreground/10 focus:bg-foreground/10 ",
                                   )}
-                                </p>
+                                >
+                                  <p className="font-mono text-lg font-medium tracking-tight">
+                                    {formatTime(
+                                      groupedSchedule[lineKey]?.[destKey]?.[0]
+                                        ?.timeEstimated,
+                                    )}
+                                  </p>
 
-                                <p className="text-xs opacity-30">
-                                  {getRelativeTimeString(
-                                    groupedSchedule[lineKey]?.[destKey]?.[0]
-                                      ?.timeEstimated ?? "",
-                                  )}
-                                </p>
-                              </div>
+                                  <p className="text-xs opacity-30">
+                                    {getRelativeTimeString(
+                                      groupedSchedule[lineKey]?.[destKey]?.[0]
+                                        ?.timeEstimated ?? "",
+                                    )}
+                                  </p>
+                                </button>
+                              </ScheduleMenu>
                             ) : null}
                           </div>
                           {(groupedSchedule[lineKey]?.[destKey] ?? []).slice(
