@@ -73,13 +73,13 @@ const MainPage = () => {
     const now = new Date().toISOString();
     setSelected([
       {
-        id: "bks",
-        name: "Bekasi",
+        id: "PWS",
+        name: "PURWOSARI",
         savedAt: now,
       },
       {
-        id: "boo",
-        name: "Bogor",
+        id: "YK",
+        name: "YOGYAKARTA",
         savedAt: now,
       },
     ]);
