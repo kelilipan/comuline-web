@@ -35,6 +35,11 @@ const StationItem = ({
         : undefined,
   });
 
+  const isRN =
+    typeof window !== "undefined" && Boolean(window.ReactNativeWebView);
+
+  const ScheduleWrapper = isRN ? "button" : "div";
+
   const groupedSchedule: GroupedSchedule = data?.reduce(
     (acc: GroupedSchedule, obj) => {
       const lineKey = `${obj.line}-${obj.color}`;
@@ -162,10 +167,11 @@ const StationItem = ({
                                 }
                                 station={station}
                               >
-                                <button
+                                <ScheduleWrapper
                                   className={cn(
                                     "act grid select-none gap-1 rounded p-1 text-right",
-                                    "transition-all hover:bg-foreground/10 focus:bg-foreground/10 ",
+                                    isRN &&
+                                      "transition-all hover:bg-foreground/10 focus:bg-foreground/10",
                                   )}
                                 >
                                   <p className="font-mono text-lg font-medium tracking-tight">
@@ -181,7 +187,7 @@ const StationItem = ({
                                         ?.timeEstimated ?? "",
                                     )}
                                   </p>
-                                </button>
+                                </ScheduleWrapper>
                               </ScheduleMenu>
                             ) : null}
                           </div>
@@ -193,22 +199,33 @@ const StationItem = ({
                               <p className="text-xs opacity-50">
                                 Jam berikutnya
                               </p>
-                              <div className="grid grid-cols-2 gap-1.5 md:grid-cols-4 md:gap-1">
+                              <div className="grid grid-cols-2 md:grid-cols-4 md:gap-1">
                                 {(groupedSchedule[lineKey]?.[destKey] ?? [])
                                   .slice(1, 5)
                                   .map((train) => (
-                                    <div
-                                      key={train.id}
-                                      className="flex flex-col gap-0.5"
-                                    >
-                                      <p className="font-mono text-sm font-semibold">
-                                        {formatTime(train.timeEstimated)}
-                                      </p>
-                                      <p className="text-xs opacity-30">
-                                        {getRelativeTimeString(
-                                          train.timeEstimated,
-                                        )}
-                                      </p>
+                                    <div className="flex">
+                                      <ScheduleMenu
+                                        schedule={train}
+                                        station={station}
+                                      >
+                                        <ScheduleWrapper
+                                          key={train.id}
+                                          className={cn(
+                                            "flex flex-col gap-0.5 rounded p-1",
+                                            isRN &&
+                                              "transition-all hover:bg-foreground/10 focus:bg-foreground/10",
+                                          )}
+                                        >
+                                          <p className="font-mono text-sm font-semibold">
+                                            {formatTime(train.timeEstimated)}
+                                          </p>
+                                          <p className="text-xs opacity-30">
+                                            {getRelativeTimeString(
+                                              train.timeEstimated,
+                                            )}
+                                          </p>
+                                        </ScheduleWrapper>
+                                      </ScheduleMenu>
                                     </div>
                                   ))}
                               </div>
@@ -243,14 +260,23 @@ const StationItem = ({
                                       ).length - 5,
                                     )
                                     .map((train) => (
-                                      <div
-                                        key={train.id}
-                                        className="flex rounded-md bg-foreground/10 px-2 py-1.5 text-sm"
+                                      <ScheduleMenu
+                                        schedule={train}
+                                        station={station}
                                       >
-                                        <span className="mx-auto text-center font-mono font-semibold text-foreground/80">
-                                          {formatTime(train.timeEstimated)}
-                                        </span>
-                                      </div>
+                                        <ScheduleWrapper
+                                          key={train.id}
+                                          className={cn(
+                                            "flex rounded-md bg-foreground/10 px-2 py-1.5 text-sm",
+                                            isRN &&
+                                              "select-none transition-all hover:bg-foreground/5 focus:bg-foreground/5",
+                                          )}
+                                        >
+                                          <span className="mx-auto text-center font-mono font-semibold text-foreground/80">
+                                            {formatTime(train.timeEstimated)}
+                                          </span>
+                                        </ScheduleWrapper>
+                                      </ScheduleMenu>
                                     ))}
                                 </Accordion.Content>
                               </Accordion.Item>
