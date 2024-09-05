@@ -10,7 +10,7 @@ import {
 } from "@/commons/utils/date";
 import { api } from "@/trpc/react";
 import { Loader, RefreshCcw } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ScheduleMenu from "../components/schedule-menu";
 
 const scheduleKey = (id: string) => `jadwal-krl-schedule-${id}`;
@@ -34,9 +34,13 @@ const StationItem = ({
         ? JSON.parse(localStorage.getItem(scheduleKey(station.id)) ?? "[]")
         : undefined,
   });
+  const [isRN, setState] = useState(false);
 
-  const isRN =
-    typeof window !== "undefined" && Boolean(window.ReactNativeWebView);
+  useEffect(() => {
+    setState(
+      typeof window !== "undefined" && Boolean(window.ReactNativeWebView),
+    );
+  }, []);
 
   const ScheduleWrapper = isRN ? "button" : "div";
 
