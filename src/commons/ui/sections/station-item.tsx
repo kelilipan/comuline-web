@@ -203,13 +203,12 @@ const StationItem = ({
                                 {(groupedSchedule[lineKey]?.[destKey] ?? [])
                                   .slice(1, 5)
                                   .map((train) => (
-                                    <div className="flex">
+                                    <div className="flex" key={train.id}>
                                       <ScheduleMenu
                                         schedule={train}
                                         station={station}
                                       >
                                         <ScheduleWrapper
-                                          key={train.id}
                                           className={cn(
                                             "flex flex-col gap-0.5 rounded p-1",
                                             isRN &&
@@ -261,11 +260,11 @@ const StationItem = ({
                                     )
                                     .map((train) => (
                                       <ScheduleMenu
+                                        key={train.id}
                                         schedule={train}
                                         station={station}
                                       >
                                         <ScheduleWrapper
-                                          key={train.id}
                                           className={cn(
                                             "flex rounded-md bg-foreground/10 px-2 py-1.5 text-sm",
                                             isRN &&

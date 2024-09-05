@@ -12,7 +12,7 @@ export const readStringArray = (): string[] => {
 export const findReminder = (id: string): string | null => {
   const arr = readStringArray();
   const foundItem = arr.find((item) => item === id);
-  return foundItem || null;
+  return foundItem ?? null;
 };
 
 export const unsetReminder = (id: string): void => {

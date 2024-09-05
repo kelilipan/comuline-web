@@ -62,7 +62,7 @@ const ScheduleMenu = ({ children, schedule, station }: ScheduleMenuProps) => {
       payload: {
         station,
         schedule,
-        beforeMinutes: beforeMinutes === null ? 0 : beforeMinutes,
+        beforeMinutes: beforeMinutes ?? 0,
       },
     });
 
@@ -100,7 +100,7 @@ const ScheduleMenu = ({ children, schedule, station }: ScheduleMenuProps) => {
                 type="number"
                 id="minutes"
                 placeholder="15"
-                value={beforeMinutes !== null ? beforeMinutes : ""}
+                value={beforeMinutes ?? ""}
                 onChange={handleChange}
               />
               <span className="text-xs text-muted-foreground">
