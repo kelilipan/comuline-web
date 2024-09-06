@@ -88,7 +88,9 @@ const ScheduleMenu = ({ children, schedule, station }: ScheduleMenuProps) => {
               {isReminded ? "Unset" : "Set"} daily reminder {isReminded && "?"}
             </DrawerTitle>
             <DrawerDescription>
-              {schedule.route} at {schedule.timeEstimated} WIB
+              <span className="capitalize">{station.name}</span>-
+              <span className="capitalize">{schedule.destination}</span> at{" "}
+              {schedule.timeEstimated} WIB
             </DrawerDescription>
           </DrawerHeader>
           {!isReminded && (
